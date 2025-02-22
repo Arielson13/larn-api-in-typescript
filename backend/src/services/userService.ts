@@ -50,25 +50,25 @@ export const loginUser = async (userDataLogin: IuserDataLogin) => {
   try {
     const { nome, email, senha } = userDataLogin;
 
-    // Se o login de preferencia for utilizando nome ou email
+    // Verifica se o usuário existe pelo nome ou email
     const userName = await userModel.findOne({ nome });
     const userEmail = await userModel.findOne({ email });
-    if (!userName || !userEmail) {
-      throw new Error("Credênciais inválidas.");
+
+    const user = userName || userEmail; // Obtém o usuário encontrado
+    if (!user) {
+      throw new Error("Credenciais inválidas.");
     }
 
-    const isMath = await bcrypt.compare(senha, userDataLogin.senha);
-    if (!isMath) {
-      throw new Error("Credênciais inválidas.");
+    // Comparação correta da senha
+    const isMatch = await bcrypt.compare(senha, user.senha);
+    if (!isMatch) {
+      throw new Error("Credenciais inválidas.");
     }
 
-    const token = jwt.sign(
-      { id: userDataLogin._id },
-      JWT_SECRET,
-      { expiresIn: "1h" } // Token expira em 1 hora
-    );
+    // Gerar token JWT
+    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: "1h" });
 
-    return { user: userName, token };
+    return { user, token };
   } catch (error: any) {
     throw new Error(error.message || "Erro ao tentar realizar login.");
   }
