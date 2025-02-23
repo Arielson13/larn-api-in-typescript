@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import AppBar from "@mui/material/AppBar";
@@ -9,43 +10,39 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
+import Collapse from "@mui/material/Collapse";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import Avatar from "@mui/material/Avatar";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import BarChartIcon from "@mui/icons-material/BarChart";
-import DescriptionIcon from "@mui/icons-material/Description";
-import LayersIcon from "@mui/icons-material/Layers";
+import ExpandLess from "@mui/icons-material/ExpandLess";
+import ExpandMore from "@mui/icons-material/ExpandMore";
+import SchoolRoundedIcon from "@mui/icons-material/SchoolRounded";
+import HistoryEduIcon from "@mui/icons-material/HistoryEdu";
+import Diversity3Icon from "@mui/icons-material/Diversity3";
+import AutoStoriesIcon from "@mui/icons-material/AutoStories";
+import StorageRoundedIcon from "@mui/icons-material/StorageRounded";
 
-const drawerWidth = 240;
-
-const NAVIGATION = [
-  {
-    segment: "dashboard",
-    title: "Dashboard",
-    icon: <DashboardIcon />,
-  },
-  {
-    segment: "orders",
-    title: "Orders",
-    icon: <ShoppingCartIcon />,
-  },
-  {
-    kind: "header",
-    title: "Analytics",
-    icon: <DescriptionIcon />,
-  },
-  {
-    segment: "reports",
-    title: "Reports",
-    icon: <BarChartIcon />,
-  },
-  {
-    segment: "integrations",
-    title: "Integrations",
-    icon: <LayersIcon />,
-  },
-];
+const drawerWidth = 250;
 
 export default function ClippedDrawer() {
+  const [openAnalytics, setOpenAnalytics] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const openProfileMenu = Boolean(anchorEl);
+
+  const handleAnalyticsClick = () => {
+    setOpenAnalytics(!openAnalytics);
+  };
+
+  const handleProfileClick = (event: any) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleProfileClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -53,10 +50,30 @@ export default function ClippedDrawer() {
         position="fixed"
         sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
       >
-        <Toolbar>
+        <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
           <Typography variant="h6" noWrap component="div">
-            SiteMark
+            AD.Brasa Viva
           </Typography>
+          <Box
+            sx={{ display: "flex", alignItems: "center", cursor: "pointer" }}
+            onClick={handleProfileClick}
+          >
+            <Typography variant="subtitle1" color="inherit">
+              Arielson Sousa Duarte
+            </Typography>
+            <Avatar sx={{ marginLeft: 1 }}>
+              <AccountCircleIcon />
+            </Avatar>
+          </Box>
+          <Menu
+            anchorEl={anchorEl}
+            open={openProfileMenu}
+            onClose={handleProfileClose}
+          >
+            <MenuItem onClick={handleProfileClose}>Perfil</MenuItem>
+            <MenuItem onClick={handleProfileClose}>Configurações</MenuItem>
+            <MenuItem onClick={handleProfileClose}>Sair</MenuItem>
+          </Menu>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -73,47 +90,102 @@ export default function ClippedDrawer() {
         <Toolbar />
         <Box sx={{ overflow: "auto" }}>
           <List>
-            {NAVIGATION.map((item, index) => (
-              <ListItem key={index} disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>{item.icon}</ListItemIcon>
-                  <ListItemText primary={item.title} />
-                </ListItemButton>
-              </ListItem>
-            ))}
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  <DashboardIcon />
+                </ListItemIcon>
+                <ListItemText primary="Informações Gerais" />
+              </ListItemButton>
+            </ListItem>
+
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  <Diversity3Icon />
+                </ListItemIcon>
+                <ListItemText primary="Professores" />
+              </ListItemButton>
+            </ListItem>
+
+            <ListItem disablePadding onClick={handleAnalyticsClick}>
+              <ListItemButton>
+                <ListItemIcon>
+                  <HistoryEduIcon />
+                </ListItemIcon>
+                <ListItemText primary="Classes" />
+                {openAnalytics ? <ExpandLess /> : <ExpandMore />}
+              </ListItemButton>
+            </ListItem>
+            <Collapse in={openAnalytics} timeout="auto" unmountOnExit>
+              <List component="div" disablePadding>
+                <ListItem disablePadding>
+                  <ListItemButton sx={{ pl: 4 }}>
+                    <ListItemIcon>
+                      <SchoolRoundedIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Simeão" />
+                  </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                  <ListItemButton sx={{ pl: 4 }}>
+                    <ListItemIcon>
+                      <SchoolRoundedIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Judá" />
+                  </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                  <ListItemButton sx={{ pl: 4 }}>
+                    <ListItemIcon>
+                      <SchoolRoundedIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Manassés" />
+                  </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                  <ListItemButton sx={{ pl: 4 }}>
+                    <ListItemIcon>
+                      <SchoolRoundedIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Leví" />
+                  </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                  <ListItemButton sx={{ pl: 4 }}>
+                    <ListItemIcon>
+                      <SchoolRoundedIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Gade" />
+                  </ListItemButton>
+                </ListItem>
+              </List>
+            </Collapse>
+
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  <AutoStoriesIcon />
+                </ListItemIcon>
+                <ListItemText primary="Revistas" />
+              </ListItemButton>
+            </ListItem>
+
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  <StorageRoundedIcon />
+                </ListItemIcon>
+                <ListItemText primary="Dados Trimestrais" />
+              </ListItemButton>
+            </ListItem>
           </List>
         </Box>
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <Toolbar />
         <Typography sx={{ marginBottom: 2 }}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus
-          dolor purus non enim praesent elementum facilisis leo vel. Risus at
-          ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum
-          quisque non tellus. Convallis convallis tellus id interdum velit
-          laoreet id donec ultrices. Odio morbi quis commodo odio aenean sed
-          adipiscing. Amet nisl suscipit adipiscing bibendum est ultricies
-          integer quis. Cursus euismod quis viverra nibh cras. Metus vulputate
-          eu scelerisque felis imperdiet proin fermentum leo. Mauris commodo
-          quis imperdiet massa tincidunt. Cras tincidunt lobortis feugiat
-          vivamus at augue. At augue eget arcu dictum varius duis at consectetur
-          lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa sapien
-          faucibus et molestie ac.
-        </Typography>
-        <Typography sx={{ marginBottom: 2 }}>
-          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est
-          ullamcorper eget nulla facilisi etiam dignissim diam. Pulvinar
-          elementum integer enim neque volutpat ac tincidunt. Ornare suspendisse
-          sed nisi lacus sed viverra tellus. Purus sit amet volutpat consequat
-          mauris. Elementum eu facilisis sed odio morbi. Euismod lacinia at quis
-          risus sed vulputate odio. Morbi tincidunt ornare massa eget egestas
-          purus viverra accumsan in. In hendrerit gravida rutrum quisque non
-          tellus orci ac. Pellentesque nec nam aliquam sem et tortor. Habitant
-          morbi tristique senectus et. Adipiscing elit duis tristique
-          sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis
-          eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla
-          posuere sollicitudin aliquam ultrices sagittis orci a.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit...
         </Typography>
       </Box>
     </Box>
