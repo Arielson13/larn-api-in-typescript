@@ -13,6 +13,8 @@ import {
   AppBar,
   Toolbar,
 } from "@mui/material";
+import ClippedDrawer from "../Dashboard";
+import backgroundLogin from "./image/backgroundLogin.png";
 
 const LoginComponent: React.FC = () => {
   const [isRegistering, setIsRegistering] = useState(false);
@@ -22,12 +24,14 @@ const LoginComponent: React.FC = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState("");
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const isMobile = useMediaQuery("(max-width: 768px)");
 
   const handleSubmit = () => {
+    let emailOrName = email || name;
     if (isRegistering) {
-      if (!name || !email || !password || !confirmPassword) {
+      if (!emailOrName || !email || !password || !confirmPassword) {
         setError("Por favor, preencha todos os campos.");
         return;
       }
@@ -45,21 +49,30 @@ const LoginComponent: React.FC = () => {
         password
       );
     } else {
-      if (!email || !password) {
+      if (!emailOrName || !password) {
         setError("Por favor, preencha todos os campos.");
         return;
       }
       setError("");
       console.log(
-        "Login - Email:",
-        email,
+        "Login - Nome ou e-mail:",
+        emailOrName,
         "Senha:",
         password,
         "Lembrar-me:",
         rememberMe
       );
     }
+    if (emailOrName === "secretaria" && password === "admin") {
+      setIsAuthenticated(true);
+    } else {
+      setError("Credênciais incorretas");
+    }
   };
+
+  if (isAuthenticated) {
+    return <ClippedDrawer />;
+  }
 
   return (
     <Box
@@ -67,13 +80,18 @@ const LoginComponent: React.FC = () => {
       justifyContent="center"
       alignItems="center"
       minHeight="100vh"
-      bgcolor="#f5f5f5"
+      sx={{
+        backgroundImage: `url(${backgroundLogin})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
     >
       {isMobile && (
         <AppBar position="fixed" sx={{ bgcolor: "#1976d2" }}>
           <Toolbar>
             <Typography variant="h6" sx={{ flexGrow: 1, textAlign: "center" }}>
-              Sitemark
+              AD.Brasa Viva
             </Typography>
           </Toolbar>
         </AppBar>
@@ -94,7 +112,7 @@ const LoginComponent: React.FC = () => {
           {!isMobile && (
             <Box textAlign="center" mb={2}>
               <Typography variant="h5" fontWeight="bold">
-                Sitemark
+                AD.Brasa Viva
               </Typography>
             </Box>
           )}
@@ -118,8 +136,8 @@ const LoginComponent: React.FC = () => {
             />
           )}
           <TextField
-            label="E-mail"
-            placeholder="Seu e-mail"
+            label="Nome ou E-mail"
+            placeholder="Seu nome ou e-mail"
             variant="outlined"
             fullWidth
             margin="normal"

@@ -23,12 +23,14 @@ import HistoryEduIcon from "@mui/icons-material/HistoryEdu";
 import Diversity3Icon from "@mui/icons-material/Diversity3";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import StorageRoundedIcon from "@mui/icons-material/StorageRounded";
+import LoginComponent from "../Login";
 
 const drawerWidth = 250;
 
 export default function ClippedDrawer() {
   const [openAnalytics, setOpenAnalytics] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [isLogout, setIsLogout] = useState(false);
   const openProfileMenu = Boolean(anchorEl);
 
   const handleAnalyticsClick = () => {
@@ -41,7 +43,12 @@ export default function ClippedDrawer() {
 
   const handleProfileClose = () => {
     setAnchorEl(null);
+    setIsLogout(true);
   };
+
+  if (isLogout) {
+    return <LoginComponent />;
+  }
 
   return (
     <Box sx={{ display: "flex" }}>

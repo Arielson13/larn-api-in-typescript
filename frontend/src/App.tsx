@@ -1,9 +1,9 @@
-import ClippedDrawer from "./components/Dashboard";
+import LoginComponent from "./components/Login";
 
 function App() {
   return (
     <>
-      <ClippedDrawer />
+      <LoginComponent />
     </>
   );
 }
