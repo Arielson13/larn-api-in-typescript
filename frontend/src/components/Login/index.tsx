@@ -29,7 +29,7 @@ const LoginComponent: React.FC = () => {
   const isMobile = useMediaQuery("(max-width: 768px)");
 
   const handleSubmit = () => {
-    let emailOrName = email || name;
+    const emailOrName: string = email || name;
     if (isRegistering) {
       if (!emailOrName || !email || !password || !confirmPassword) {
         setError("Por favor, preencha todos os campos.");
@@ -40,29 +40,12 @@ const LoginComponent: React.FC = () => {
         return;
       }
       setError("");
-      console.log(
-        "Cadastro - Nome:",
-        name,
-        "Email:",
-        email,
-        "Senha:",
-        password
-      );
-    } else {
-      if (!emailOrName || !password) {
-        setError("Por favor, preencha todos os campos.");
-        return;
-      }
-      setError("");
-      console.log(
-        "Login - Nome ou e-mail:",
-        emailOrName,
-        "Senha:",
-        password,
-        "Lembrar-me:",
-        rememberMe
-      );
+    } else if (!emailOrName || !password) {
+      setError("Por favor, preencha todos os campos.");
+      return;
     }
+    setError("");
+
     if (emailOrName === "secretaria" && password === "admin") {
       setIsAuthenticated(true);
     } else {
@@ -73,6 +56,12 @@ const LoginComponent: React.FC = () => {
   if (isAuthenticated) {
     return <ClippedDrawer />;
   }
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      handleSubmit();
+    }
+  });
 
   return (
     <Box

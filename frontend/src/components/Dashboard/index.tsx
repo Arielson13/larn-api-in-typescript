@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
@@ -43,6 +44,9 @@ export default function ClippedDrawer() {
 
   const handleProfileClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleExitTheDash = () => {
     setIsLogout(true);
   };
 
@@ -79,7 +83,7 @@ export default function ClippedDrawer() {
           >
             <MenuItem onClick={handleProfileClose}>Perfil</MenuItem>
             <MenuItem onClick={handleProfileClose}>Configurações</MenuItem>
-            <MenuItem onClick={handleProfileClose}>Sair</MenuItem>
+            <MenuItem onClick={handleExitTheDash}>Sair</MenuItem>
           </Menu>
         </Toolbar>
       </AppBar>
