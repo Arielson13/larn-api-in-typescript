@@ -33,11 +33,9 @@ API RESTful desenvolvida em **TypeScript** com o framework **Express**, com foco
     git clone https://github.com/Arielson13/larn-api-in-typescript.git
     cd larn-api-in-typescript
 
-
 2. Instale as dependências:
     ```
     npm install
-
 
 3. Crie um arquivo `.env` com o seguinte conteúdo:
     ```
@@ -47,7 +45,6 @@ API RESTful desenvolvida em **TypeScript** com o framework **Express**, com foco
 4. Execute a aplicação:
     ```
     npm run dev
-
 
 ## 🔐 Autenticação
 A API utiliza JWT para autenticação. Após o login com um usuário válido, um token é gerado e deve ser enviado no header das requisições protegidas:
